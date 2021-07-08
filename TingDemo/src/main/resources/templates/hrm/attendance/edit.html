@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('修改员工薪资')" />
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+	<form class="form-horizontal m" id="form-attendance-edit" th:object="${attendance}">
+		<input id="attendanceId" name="attendanceId" type="hidden" th:field="*{attendanceId}"/>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">基本工时：</label>
+			<div class="col-sm-8">
+				<input class="form-control" type="text" name="basicHours" id="basicHours" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">实际工时：</label>
+			<div class="col-sm-8">
+				<input class="form-control" type="text" name="actualHours" id="actualHours" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">加班工时：</label>
+			<div class="col-sm-8">
+				<input class="form-control" type="text" name="overtime" id="overtime" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">显示顺序：</label>
+			<div class="col-sm-8">
+				<input class="form-control" type="text" name="attendanceSort" id="attendanceSort" th:field="*{attendanceSort}" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">薪资状态：</label>
+			<div class="col-sm-8">
+				<div class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+					<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}" th:field="*{status}">
+					<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">备注：</label>
+			<div class="col-sm-8">
+				<textarea id="remark" name="remark" class="form-control">[[*{remark}]]</textarea>
+			</div>
+		</div>
+	</form>
+</div>
+<th:block th:include="include :: footer" />
+<script type="text/javascript">
+	var prefix = ctx + "hrm/attendance";
+
+	// $("#form-type-edit").validate({
+	// 	onkeyup: false,
+	// 	rules:{
+	// 		typeName:{
+	// 			remote: {
+	//                 url: ctx + "cms/type/checktypeNameUnique",
+	//                 type: "post",
+	//                 dataType: "json",
+	//                 data: {
+	//                 	"typeName" : function() {
+	//                         return $.common.trim($("#typeName").val());
+	//                     }
+	//                 },
+	//                 dataFilter: function(data, type) {
+	//                 	return $.validate.unique(data);
+	//                 }
+	//             }
+	// 		},
+	// 		typeSort:{
+	// 			digits:true
+	// 		},
+	// 	},
+	// 	messages: {
+	//         "typeName": {
+	//             remote: "公告类型名称已经存在"
+	//         }
+	//     },
+	//     focusCleanup: true
+	// });
+
+	function submitHandler() {
+		if ($.validate.form()) {
+			$.operate.save(prefix + "/edit", $('#form-attendance-edit').serialize());
+		}
+	}
+</script>
+</body>
+</html>

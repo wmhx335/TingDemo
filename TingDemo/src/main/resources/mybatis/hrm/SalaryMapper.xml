@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.hrm.salary.mapper.SalaryMapper">
+
+    <resultMap type="Salary" id="SalaryResult">
+        <id     property="salaryId"        column="salary_id"       />
+        <result property="basicSalary"      column="basicSalary"     />
+        <result property="perquisite"      column="perquisite"     />
+        <result property="insurance"        column="insurance"        />
+        <result property="salarySort"      column="salary_sort"     />
+        <result property="status"        column="status"        />
+        <result property="createBy"      column="create_by"     />
+        <result property="createTime"    column="create_time"   />
+        <result property="updateBy"      column="update_by"     />
+        <result property="updateTime"    column="update_time"   />
+        <result property="remark"        column="remark"        />
+    </resultMap>
+
+    <!-- 条件查询 -->
+    <select id="selectSalaryList" parameterType="Salary" resultMap="SalaryResult">
+        select salary_id, basicSalary, perquisite, insurance,salary_sort,status
+        ,create_by, create_time, update_by, update_time, remark
+        from hrm_salary
+    </select>
+
+    <insert id="insertSalary" parameterType="Salary" useGeneratedKeys="true" keyProperty="salaryId">
+        insert into hrm_salary(
+        <if test="salaryId != null and salaryId != 0">salary_id,</if>
+        <if test="basicSalary != null and basicSalary != ''">basicSalary,</if>
+        <if test="perquisite != null and perquisite != ''">perquisite,</if>
+        <if test="insurance != null and insurance != ''">insurance,</if>
+        <if test="salarySort != null and salarySort != ''">salary_sort,</if>
+        <if test="status != null and status != ''">status,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        create_time
+        ) values (
+        <if test="salaryId != null and salaryId != 0">#{salaryId},</if>
+        <if test="basicSalary != null and basicSalary != ''">#{basicSalary},</if>
+        <if test="perquisite != null and perquisite != ''">#{perquisite},</if>
+        <if test="insurance != null and insurance != ''">#{insurance},</if>
+        <if test="salarySort != null and salarySort != ''">#{salarySort},</if>
+        <if test="status != null and status != ''">#{status},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        sysdate()
+        )
+    </insert>
+
+    <!-- 根据公告类型名称查询公告类型对象 -->
+    <select id="selectSalaryById" parameterType="Long"
+            resultMap="com.ruoyi.project.hrm.salary.mapper.SalaryMapper.SalaryResult">
+        select salary_id, basicSalary, perquisite, insurance,salary_sort,status
+        ,create_by, create_time, update_by, update_time, remark
+        from hrm_salary
+        where salary_id = #{salaryId}
+    </select>
+
+    <update id="updateSalary" parameterType="Salary">
+        update hrm_salary
+        <set>
+            <if test="basicSalary != null and basicSalary != ''">basicSalary = #{basicSalary},</if>
+            <if test="perquisite != null and perquisite != ''">perquisite = #{perquisite},</if>
+            <if test="insurance != null and insurance != ''">insurance = #{insurance},</if>
+            <if test="salarySort != null and salarySort != ''">salary_sort = #{salarySort},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </set>
+        where salary_id = #{salaryId}
+    </update>
+
+    <delete id="deleteSalaryByIds" parameterType="Long">
+        delete from hrm_salary where salary_id in
+        <foreach collection="salaryIds" item="salaryId" open="(" separator="," close=")">
+            #{salaryId}
+        </foreach>
+    </delete>
+
+
+
+
+
+</mapper>

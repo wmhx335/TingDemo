@@ -1,20 +1,16 @@
 package com.ruoyi.project.cms.type.controller;
 
-import com.ruoyi.common.constant.UserConstants;
-import com.ruoyi.framework.aspectj.lang.annotation.Log;
-import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
+
 import com.ruoyi.framework.web.controller.BaseController;
 import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.cms.commom.CMSTypeConst;
 import com.ruoyi.project.cms.type.domain.CMSType;
 import com.ruoyi.project.cms.type.service.ICMSTypeService;
-import com.ruoyi.project.system.post.domain.Post;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -99,7 +95,6 @@ public class TypeController extends BaseController {
     @GetMapping("/edit/{typeId}")
     public String edit(@PathVariable("typeId") Long typeId, Model model)
     {
-
         model.addAttribute("type", typeService.selectTypeById(typeId));
         return prefix + "/edit";
     }
